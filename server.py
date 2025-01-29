@@ -5,9 +5,14 @@ from pydantic import BaseModel
 import numpy as np
 import tensorflow as tf
 from PIL import Image
+import os
 
-# Load the trained TensorFlow model
-MODEL = tf.keras.models.load_model("./20250126-05181737868724-full-image-set-mobilenetv2-Adam.h5")
+model_path = os.path.join(os.getcwd(), "20250126-05181737868724-full-image-set-mobilenetv2-Adam.h5")
+
+if os.path.exists(model_path):
+    MODEL = tf.keras.models.load_model(model_path)
+else:
+    raise FileNotFoundError(f"Model file not found: {model_path}")
 
 # Define image size (should match the model's input size)
 IMG_SIZE = 224
