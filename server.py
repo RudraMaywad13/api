@@ -37,14 +37,14 @@ class ImageRequest(BaseModel):
 
 # Function to convert Base64 string to an image
 def base64_to_image(base64_string):
-    """
-    Converts a Base64 string to an image and saves it locally.
-    """
-    image_data = base64.b64decode(base64_string)  # Decode Base64 string
-    image = Image.open(BytesIO(image_data))  # Convert byte data to an image
-    image = image.convert("RGB")  # Ensure the image is in RGB mode
-    image.save("temp_image.png", "PNG")  # Save as PNG
-    return "temp_image.png"  # Return saved image path
+    try:
+        image_data = base64.b64decode(base64_string)  # Decode Base64
+        image = Image.open(BytesIO(image_data))  # Convert to image
+        image = image.convert("RGB")  # Ensure RGB
+        image.save("temp_image.png", "PNG")  # Save locally
+        return "temp_image.png"  # Return file path
+    except Exception as e:
+        raise ValueError(f"Error decoding image: {str(e)}")  # Raise error
 
 # Function to process image for model prediction
 def process_image(image_path):
